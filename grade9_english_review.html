@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 9 English Review – May 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0e17;
+    --surface: #1a1a2e;
+    --card: #16213e;
+    --accent1: #e94560;
+    --accent2: #f5a623;
+    --accent3: #0ff;
+    --accent4: #a8ff78;
+    --text: #fffffe;
+    --muted: #a7a9be;
+    --correct: #a8ff78;
+    --wrong: #ff6b6b;
+    --border: rgba(255,255,255,0.08);
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at 20% 20%, rgba(233,69,96,0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(0,255,255,0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* HEADER */
+  header {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 40px 20px 30px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-badge {
+    display: inline-block;
+    background: var(--accent1);
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  header h1 {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+  header h1 span { color: var(--accent1); }
+  .header-sub {
+    color: var(--muted);
+    margin-top: 8px;
+    font-size: 0.95rem;
+    direction: rtl;
+  }
+  .exam-date {
+    display: inline-block;
+    margin-top: 12px;
+    background: rgba(245,166,35,0.15);
+    border: 1px solid var(--accent2);
+    color: var(--accent2);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    padding: 6px 18px;
+    border-radius: 30px;
+  }
+
+  /* PROGRESS BAR */
+  .progress-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(15,14,23,0.95);
+    backdrop-filter: blur(10px);
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .progress-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--accent3);
+    white-space: nowrap;
+    min-width: 110px;
+  }
+  .progress-bar-outer {
+    flex: 1;
+    height: 8px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-bar-inner {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    border-radius: 4px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .progress-count {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* TABS */
+  .tabs-wrap {
+    position: relative;
+    z-index: 1;
+    padding: 20px 20px 0;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .tab-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 8px 18px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tab-btn:hover { border-color: var(--accent1); color: var(--text); }
+  .tab-btn.active {
+    background: var(--accent1);
+    border-color: var(--accent1);
+    color: #fff;
+  }
+  .tab-emoji { font-size: 1rem; }
+
+  /* SECTIONS */
+  .section {
+    display: none;
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+  }
+  .section.active { display: block; }
+
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-desc {
+    color: var(--muted);
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+    direction: rtl;
+    text-align: right;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    margin-bottom: 18px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: rgba(255,255,255,0.15); }
+  .q-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent2);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .q-text {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .q-hebrew {
+    font-size: 0.85rem;
+    color: var(--muted);
+    direction: rtl;
+    text-align: right;
+    margin-bottom: 10px;
+  }
+
+  /* MC OPTIONS */
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  @media(max-width:480px){ .options { grid-template-columns: 1fr; } }
+  .opt-btn {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-align: left;
+    transition: all 0.2s;
+  }
+  .opt-btn:hover:not(:disabled) { border-color: var(--accent3); background: rgba(0,255,255,0.06); }
+  .opt-btn.correct { background: rgba(168,255,120,0.15); border-color: var(--correct); color: var(--correct); }
+  .opt-btn.wrong   { background: rgba(255,107,107,0.15); border-color: var(--wrong); color: var(--wrong); }
+  .opt-btn:disabled { cursor: default; }
+
+  /* TEXT INPUT */
+  .text-input {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .text-input:focus { border-color: var(--accent3); }
+  .text-input.correct { border-color: var(--correct); background: rgba(168,255,120,0.08); }
+  .text-input.wrong   { border-color: var(--wrong); background: rgba(255,107,107,0.08); }
+
+  /* CHECK BUTTON */
+  .check-btn {
+    margin-top: 10px;
+    background: linear-gradient(135deg, var(--accent1), #ff6b6b);
+    border: none;
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.9rem;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+  .check-btn:hover { opacity: 0.9; }
+  .check-btn:active { transform: scale(0.97); }
+  .check-btn:disabled { opacity: 0.4; cursor: default; }
+
+  /* FEEDBACK */
+  .feedback {
+    display: none;
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    font-weight: 600;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct-fb { background: rgba(168,255,120,0.12); color: var(--correct); border: 1px solid rgba(168,255,120,0.3); }
+  .feedback.wrong-fb   { background: rgba(255,107,107,0.12); color: #ff9a9a; border: 1px solid rgba(255,107,107,0.3); }
+
+  /* VOCAB FLASHCARD */
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .vcard {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+  .vcard:hover { border-color: var(--accent2); transform: translateY(-2px); }
+  .vcard.flipped { background: rgba(245,166,35,0.12); border-color: var(--accent2); }
+  .vcard .en-word { font-weight: 800; font-size: 0.95rem; color: var(--accent3); }
+  .vcard .he-trans { font-size: 0.85rem; color: var(--accent2); direction: rtl; display: none; }
+  .vcard.flipped .he-trans { display: block; }
+  .vcard .flip-hint { font-size: 0.65rem; color: var(--muted); margin-top: 4px; }
+
+  /* READING PASSAGE */
+  .passage {
+    background: rgba(255,255,255,0.03);
+    border-left: 3px solid var(--accent3);
+    padding: 16px 20px;
+    border-radius: 0 12px 12px 0;
+    margin-bottom: 22px;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #e0e0f0;
+  }
+  .passage strong { color: var(--accent3); }
+
+  /* CLOZE */
+  .cloze-blank {
+    display: inline-block;
+    min-width: 100px;
+    border-bottom: 2px solid var(--accent2);
+    background: transparent;
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-align: center;
+    outline: none;
+    padding: 2px 6px;
+    transition: border-color 0.2s;
+  }
+  .cloze-blank:focus { border-color: var(--accent3); }
+  .cloze-blank.correct { border-color: var(--correct); color: var(--correct); }
+  .cloze-blank.wrong   { border-color: var(--wrong); color: var(--wrong); }
+
+  /* VERB CONJUGATION TABLE */
+  .verb-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  .verb-table th { padding: 8px 12px; text-align: left; font-size: 0.8rem; color: var(--muted); border-bottom: 1px solid var(--border); font-family: 'Space Mono', monospace; }
+  .verb-table td { padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.9rem; }
+  .verb-table tr:last-child td { border-bottom: none; }
+  .verb-table input { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text); padding: 5px 10px; border-radius: 6px; font-family: 'Nunito', sans-serif; font-size: 0.9rem; width: 100%; outline: none; }
+  .verb-table input:focus { border-color: var(--accent3); }
+  .verb-table input.correct { border-color: var(--correct); background: rgba(168,255,120,0.08); color: var(--correct); }
+  .verb-table input.wrong   { border-color: var(--wrong);   background: rgba(255,107,107,0.08); color: var(--wrong); }
+
+  /* WORD BANK */
+  .word-bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+    padding: 14px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+    border: 1px dashed var(--border);
+  }
+  .wb-chip {
+    background: rgba(168,255,120,0.1);
+    border: 1px solid rgba(168,255,120,0.3);
+    color: var(--accent4);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .wb-chip:hover { background: rgba(168,255,120,0.2); }
+  .wb-chip.used { opacity: 0.3; text-decoration: line-through; pointer-events: none; }
+
+  /* SECTION CHECK ALL BTN */
+  .section-check-btn {
+    display: block;
+    margin: 20px auto 0;
+    background: linear-gradient(135deg, var(--accent2), #ff9500);
+    border: none;
+    color: #0f0e17;
+    padding: 12px 32px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    font-size: 1rem;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .section-check-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,166,35,0.3); }
+
+  /* SCORE SUMMARY */
+  .score-summary {
+    display: none;
+    margin-top: 20px;
+    padding: 18px 22px;
+    background: rgba(168,255,120,0.08);
+    border: 1px solid rgba(168,255,120,0.25);
+    border-radius: var(--radius);
+    text-align: center;
+  }
+  .score-summary.show { display: block; }
+  .score-big { font-size: 2.5rem; font-weight: 900; color: var(--accent4); font-family: 'Space Mono', monospace; }
+  .score-msg { color: var(--muted); font-size: 0.9rem; margin-top: 6px; }
+
+  /* WRITING */
+  textarea.text-input {
+    resize: vertical;
+    min-height: 120px;
+  }
+  .writing-rubric {
+    font-size: 0.82rem;
+    color: var(--muted);
+    direction: rtl;
+    text-align: right;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 8px;
+    margin-bottom: 14px;
+    line-height: 1.7;
+  }
+
+  /* CONFETTI dot */
+  @keyframes confettiFall {
+    0%   { transform: translateY(-20px) rotate(0deg); opacity:1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity:0; }
+  }
+  .confetti-dot {
+    position: fixed;
+    width: 8px; height: 8px;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 9999;
+    animation: confettiFall linear forwards;
+  }
+
+  /* SCROLL */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
+  .icon { font-size: 1.2rem; }
+  .divider { height: 1px; background: var(--border); margin: 20px 0; }
+  .hint { font-size: 0.78rem; color: var(--muted); margin-top: 5px; direction: rtl; text-align: right; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">📚 Exam Prep</div>
+  <h1>Grade 9 English <span>Review</span></h1>
+  <p class="header-sub">חזרה למבחן – הקבצה ב • כיתה ט</p>
+  <div class="exam-date">📅 מבחן: יום שני 04.05.2026</div>
+</header>
+
+<div class="progress-wrap">
+  <span class="progress-label">📊 Progress</span>
+  <div class="progress-bar-outer">
+    <div class="progress-bar-inner" id="mainProgressBar"></div>
+  </div>
+  <span class="progress-count" id="progressCount">0 / 0 answered</span>
+</div>
+
+<div class="tabs-wrap">
+  <button class="tab-btn active" onclick="showTab('tab-vocab')" id="t-vocab"><span class="tab-emoji">📖</span> Vocabulary</button>
+  <button class="tab-btn" onclick="showTab('tab-verbs')" id="t-verbs"><span class="tab-emoji">⚡</span> Verbs</button>
+  <button class="tab-btn" onclick="showTab('tab-grammar')" id="t-grammar"><span class="tab-emoji">🔧</span> Past Simple</button>
+  <button class="tab-btn" onclick="showTab('tab-reading')" id="t-reading"><span class="tab-emoji">📰</span> Reading</button>
+  <button class="tab-btn" onclick="showTab('tab-cloze')" id="t-cloze"><span class="tab-emoji">✏️</span> Cloze</button>
+  <button class="tab-btn" onclick="showTab('tab-writing')" id="t-writing"><span class="tab-emoji">📝</span> Writing</button>
+</div>
+
+<!-- ===================== TAB 1: VOCABULARY ===================== -->
+<section class="section active" id="tab-vocab">
+  <div class="section-title"><span>📖</span> Vocabulary Flash Cards + Quiz</div>
+  <p class="section-desc">לחץ על כל מילה כדי לראות את התרגום לעברית. אחר כך תרגל עם החידון!</p>
+
+  <div class="vocab-grid" id="vocabGrid"></div>
+
+  <div class="divider"></div>
+  <div class="section-title" style="margin-bottom:16px;"><span>🎯</span> Vocabulary Quiz – Multiple Choice</div>
+
+  <div class="card" id="vq1">
+    <div class="q-label">Q1 · Meaning</div>
+    <div class="q-text">What does <strong style="color:var(--accent3)">"neighborhood"</strong> mean?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="checkMC(this,'vq1','wrong')">שוק</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq1','correct')">שכונה</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq1','wrong')">מגרש משחקים</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq1','wrong')">שטיח</button>
+    </div>
+    <div class="feedback" id="vq1-fb"></div>
+  </div>
+
+  <div class="card" id="vq2">
+    <div class="q-label">Q2 · Meaning</div>
+    <div class="q-text">What does <strong style="color:var(--accent3)">"marketplace"</strong> mean?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="checkMC(this,'vq2','wrong')">שכונה</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq2','wrong')">מרכז</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq2','correct')">שוק / שוק מסחרי</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq2','wrong')">בשר</button>
+    </div>
+    <div class="feedback" id="vq2-fb"></div>
+  </div>
+
+  <div class="card" id="vq3">
+    <div class="q-label">Q3 · Choose the right word</div>
+    <div class="q-text">The kids played basketball on the ______.</div>
+    <div class="q-hebrew">הילדים שיחקו כדורסל על ה______.</div>
+    <div class="options">
+      <button class="opt-btn" onclick="checkMC(this,'vq3','wrong')">carpet</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq3','correct')">playground</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq3','wrong')">marketplace</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq3','wrong')">center</button>
+    </div>
+    <div class="feedback" id="vq3-fb"></div>
+  </div>
+
+  <div class="card" id="vq4">
+    <div class="q-label">Q4 · Choose the right word</div>
+    <div class="q-text">We need to <strong>______</strong> rainwater to use it later.</div>
+    <div class="q-hebrew">אנחנו צריכים ______ מי גשמים כדי להשתמש בהם מאוחר יותר.</div>
+    <div class="options">
+      <button class="opt-btn" onclick="checkMC(this,'vq4','wrong')">fill</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq4','correct')">collect</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq4','wrong')">plant</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq4','wrong')">save</button>
+    </div>
+    <div class="feedback" id="vq4-fb"></div>
+  </div>
+
+  <div class="card" id="vq5">
+    <div class="q-label">Q5 · Synonym</div>
+    <div class="q-text">Which word is closest in meaning to <strong style="color:var(--accent3)">"protect"</strong>?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="checkMC(this,'vq5','wrong')">enjoy</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq5','wrong')">collect</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq5','correct')">save</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq5','wrong')">visit</button>
+    </div>
+    <div class="feedback" id="vq5-fb"></div>
+  </div>
+
+  <div class="card" id="vq6">
+    <div class="q-label">Q6 · Context sentence</div>
+    <div class="q-text">The journalist who writes for a newspaper is called a ______.</div>
+    <div class="q-hebrew">העיתונאי שכותב לעיתון נקרא ______.</div>
+    <div class="options">
+      <button class="opt-btn" onclick="checkMC(this,'vq6','wrong')">visitor</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq6','correct')">reporter</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq6','wrong')">collector</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq6','wrong')">cooker</button>
+    </div>
+    <div class="feedback" id="vq6-fb"></div>
+  </div>
+
+  <div class="card" id="vq7">
+    <div class="q-label">Q7 · Odd One Out</div>
+    <div class="q-text">Which word does NOT belong with the others?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="checkMC(this,'vq7','wrong')">vegetables</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq7','wrong')">meat</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq7','correct')">electricity</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq7','wrong')">cook</button>
+    </div>
+    <div class="feedback" id="vq7-fb">electricity is not food-related like the others!</div>
+  </div>
+
+  <div class="card" id="vq8">
+    <div class="q-label">Q8 · Sentence Completion</div>
+    <div class="q-text">Please ______ the bucket with water before you start cleaning.</div>
+    <div class="q-hebrew">בבקשה ______ את הדלי במים לפני שתתחיל לנקות.</div>
+    <div class="options">
+      <button class="opt-btn" onclick="checkMC(this,'vq8','wrong')">plant</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq8','wrong')">clean up</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq8','correct')">fill</button>
+      <button class="opt-btn" onclick="checkMC(this,'vq8','wrong')">collect</button>
+    </div>
+    <div class="feedback" id="vq8-fb"></div>
+  </div>
+
+</section>
+
+<!-- ===================== TAB 2: VERBS ===================== -->
+<section class="section" id="tab-verbs">
+  <div class="section-title"><span>⚡</span> Irregular Verbs – Past Simple</div>
+  <p class="section-desc">כתוב את צורת העבר הפשוט של כל פועל. לחץ "Check" לאחר מכן.</p>
+
+  <div class="card">
+    <table class="verb-table" id="verbTable">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Base Form</th>
+          <th>Past Simple</th>
+          <th>✓</th>
+        </tr>
+      </thead>
+      <tbody id="verbTbody"></tbody>
+    </table>
+    <button class="section-check-btn" onclick="checkVerbs()">⚡ Check All Verbs</button>
+    <div class="score-summary" id="verbScore">
+      <div class="score-big" id="verbScoreBig"></div>
+      <div class="score-msg" id="verbScoreMsg"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px;">
+    <div class="q-label">BONUS · Regular Verbs Rule</div>
+    <div class="q-text">Which of these is the correct Past Simple of <strong style="color:var(--accent3)">"study"</strong>?</div>
+    <div class="options" style="grid-template-columns:1fr 1fr;">
+      <button class="opt-btn" onclick="checkMC(this,'bv1','wrong')">studyed</button>
+      <button class="opt-btn" onclick="checkMC(this,'bv1','correct')">studied</button>
+      <button class="opt-btn" onclick="checkMC(this,'bv1','wrong')">studid</button>
+      <button class="opt-btn" onclick="checkMC(this,'bv1','wrong')">studed</button>
+    </div>
+    <div class="feedback" id="bv1-fb">✅ Verbs ending in consonant + y → change y to i and add -ed. study → studied, cry → cried, try → tried</div>
+  </div>
+
+  <div class="card" id="bv2" style="margin-top:0;">
+    <div class="q-label">BONUS · Regular Verbs Rule</div>
+    <div class="q-text">Which is the correct Past Simple of <strong style="color:var(--accent3)">"stop"</strong>?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="checkMC(this,'bv2','wrong')">stoped</button>
+      <button class="opt-btn" onclick="checkMC(this,'bv2','wrong')">stoppd</button>
+      <button class="opt-btn" onclick="checkMC(this,'bv2','correct')">stopped</button>
+      <button class="opt-btn" onclick="checkMC(this,'bv2','wrong')">stoppied</button>
+    </div>
+    <div class="feedback" id="bv2-fb">✅ Short verb ending in vowel + consonant → double the last letter: stop → stopped, run → ran (irregular)</div>
+  </div>
+</section>
+
+<!-- ===================== TAB 3: GRAMMAR ===================== -->
+<section class="section" id="tab-grammar">
+  <div class="section-title"><span>🔧</span> Past Simple Grammar</div>
+  <p class="section-desc">עבר פשוט – שאלות ושלילה. פתור את התרגילים!</p>
+
+  <!-- Positive sentences -->
+  <div class="card" id="gr1">
+    <div class="q-label">Q1 · Positive Sentence</div>
+    <div class="q-text">Write the correct form: She ______ (go) to the marketplace yesterday.</div>
+    <div class="q-hebrew">כתוב את הצורה הנכונה: היא ______ לשוק אתמול.</div>
+    <input class="text-input" id="gr1-inp" placeholder="type the past form..." autocomplete="off">
+    <button class="check-btn" onclick="checkOpen('gr1','went','She went to the marketplace yesterday. ✅ go → went (irregular!)')">Check ✓</button>
+    <div class="feedback" id="gr1-fb"></div>
+  </div>
+
+  <div class="card" id="gr2">
+    <div class="q-label">Q2 · Positive Sentence</div>
+    <div class="q-text">Write the correct form: They ______ (bring) fresh vegetables to the center.</div>
+    <input class="text-input" id="gr2-inp" placeholder="type the past form...">
+    <button class="check-btn" onclick="checkOpen('gr2','brought','They brought fresh vegetables to the center. ✅ bring → brought (irregular!)')">Check ✓</button>
+    <div class="feedback" id="gr2-fb"></div>
+  </div>
+
+  <div class="card" id="gr3">
+    <div class="q-label">Q3 · Negative Sentence</div>
+    <div class="q-text">Make it negative: She visited the playground. → She ______ the playground.</div>
+    <div class="q-hebrew">הפוך לשלילי: היא ביקרה במגרש המשחקים. → היא ______ במגרש.</div>
+    <input class="text-input" id="gr3-inp" placeholder="didn't + ...">
+    <button class="check-btn" onclick="checkOpen('gr3','didn\'t visit','She didn\'t visit the playground. ✅ Negative = didn\'t + base form. The verb stays in its BASE form!')">Check ✓</button>
+    <div class="feedback" id="gr3-fb"></div>
+  </div>
+
+  <div class="card" id="gr4">
+    <div class="q-label">Q4 · Yes/No Question</div>
+    <div class="q-text">Form a Yes/No question: They cooked meat. → ______ they cook meat?</div>
+    <div class="q-hebrew">צור שאלת כן/לא: הם בישלו בשר. → ______ הם בישלו בשר?</div>
+    <input class="text-input" id="gr4-inp" placeholder="Did...">
+    <button class="check-btn" onclick="checkOpen('gr4','did','Did they cook meat? ✅ Yes/No questions start with DID + subject + base verb form!')">Check ✓</button>
+    <div class="feedback" id="gr4-fb"></div>
+  </div>
+
+  <div class="card" id="gr5">
+    <div class="q-label">Q5 · WH Question</div>
+    <div class="q-text">She found a special carpet. → <strong>What</strong> ______ she find?</div>
+    <div class="q-hebrew">היא מצאה שטיח מיוחד. → מה היא מצאה?</div>
+    <input class="text-input" id="gr5-inp" placeholder="What did...">
+    <button class="check-btn" onclick="checkOpen('gr5','did','What did she find? ✅ WH Questions: What/Where/When + DID + subject + base verb')">Check ✓</button>
+    <div class="feedback" id="gr5-fb"></div>
+  </div>
+
+  <div class="card" id="gr6">
+    <div class="q-label">Q6 · was / were</div>
+    <div class="q-text">The reporter ______ (be) very special in our neighborhood.</div>
+    <input class="text-input" id="gr6-inp" placeholder="was or were?">
+    <button class="check-btn" onclick="checkOpen('gr6','was','The reporter WAS very special. ✅ He/She/It → WAS. You/We/They → WERE.')">Check ✓</button>
+    <div class="feedback" id="gr6-fb"></div>
+  </div>
+
+  <div class="card" id="gr7">
+    <div class="q-label">Q7 · Multiple Choice – Spot the Error</div>
+    <div class="q-text">Which sentence is <strong>CORRECT</strong>?</div>
+    <div class="options" style="grid-template-columns:1fr;">
+      <button class="opt-btn" onclick="checkMC(this,'gr7','wrong')">She didn't went to school.</button>
+      <button class="opt-btn" onclick="checkMC(this,'gr7','correct')">She didn't go to school.</button>
+      <button class="opt-btn" onclick="checkMC(this,'gr7','wrong')">She didn't goes to school.</button>
+      <button class="opt-btn" onclick="checkMC(this,'gr7','wrong')">She not go to school.</button>
+    </div>
+    <div class="feedback" id="gr7-fb">✅ After didn't → use BASE FORM of the verb. Not "went" or "goes" — just "go"!</div>
+  </div>
+
+  <div class="card" id="gr8">
+    <div class="q-label">Q8 · Multiple Choice – Choose the correct sentence</div>
+    <div class="q-text">Which is the correct Yes/No question?</div>
+    <div class="options" style="grid-template-columns:1fr;">
+      <button class="opt-btn" onclick="checkMC(this,'gr8','wrong')">Did she enjoyed the food?</button>
+      <button class="opt-btn" onclick="checkMC(this,'gr8','correct')">Did she enjoy the food?</button>
+      <button class="opt-btn" onclick="checkMC(this,'gr8','wrong')">Does she enjoyed the food?</button>
+      <button class="opt-btn" onclick="checkMC(this,'gr8','wrong')">She enjoyed the food?</button>
+    </div>
+    <div class="feedback" id="gr8-fb">✅ Did + subject + BASE FORM. "enjoy" not "enjoyed" — DID already shows past tense!</div>
+  </div>
+
+</section>
+
+<!-- ===================== TAB 4: READING ===================== -->
+<section class="section" id="tab-reading">
+  <div class="section-title"><span>📰</span> Reading Comprehension</div>
+  <p class="section-desc">קרא את הקטע וענה על השאלות.</p>
+
+  <div class="passage">
+    <strong>The Green Neighborhood Project</strong><br><br>
+    Last spring, a group of students decided to clean up their neighborhood. They <strong>collected</strong> trash from the streets and <strong>planted</strong> trees in the playground. A reporter from the local newspaper came to write about the project. She said it was the most <strong>special</strong> story of the year.<br><br>
+    The students also visited an old woman named Mrs. Katz. She lived in the center of the neighborhood and <strong>enjoyed</strong> cooking. She <strong>baked</strong> bread and <strong>cooked</strong> a stew with fresh <strong>vegetables</strong> and <strong>meat</strong>. The students helped her <strong>fill</strong> the shopping bags at the <strong>marketplace</strong>.<br><br>
+    At the end of the day, they were tired but happy. They knew they <strong>saved</strong> electricity by walking instead of driving. Mrs. Katz said, "You are the future of this neighborhood!"
+  </div>
+
+  <div class="card" id="rc1">
+    <div class="q-label">Q1 · True or False</div>
+    <div class="q-text">The students planted flowers in the playground. <span style="color:var(--muted); font-size:0.8rem;">(True / False?)</span></div>
+    <div class="options" style="grid-template-columns:1fr 1fr;">
+      <button class="opt-btn" onclick="checkMC(this,'rc1','wrong')">True</button>
+      <button class="opt-btn" onclick="checkMC(this,'rc1','correct')">False</button>
+    </div>
+    <div class="feedback" id="rc1-fb">✅ FALSE! They planted <strong>trees</strong>, not flowers. Check the passage!</div>
+  </div>
+
+  <div class="card" id="rc2">
+    <div class="q-label">Q2 · Multiple Choice</div>
+    <div class="q-text">Who came to write about the project?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="checkMC(this,'rc2','wrong')">Mrs. Katz</button>
+      <button class="opt-btn" onclick="checkMC(this,'rc2','correct')">A reporter</button>
+      <button class="opt-btn" onclick="checkMC(this,'rc2','wrong')">A teacher</button>
+      <button class="opt-btn" onclick="checkMC(this,'rc2','wrong')">A neighbor</button>
+    </div>
+    <div class="feedback" id="rc2-fb">✅ "A reporter from the local newspaper came to write about the project."</div>
+  </div>
+
+  <div class="card" id="rc3">
+    <div class="q-label">Q3 · Open Answer</div>
+    <div class="q-text">Where does Mrs. Katz live? Write a full sentence.</div>
+    <input class="text-input" id="rc3-inp" placeholder="She lives...">
+    <button class="check-btn" onclick="checkOpen('rc3','center','✅ She lives in the center of the neighborhood. Great – remember to write a full sentence!')">Check ✓</button>
+    <div class="feedback" id="rc3-fb"></div>
+  </div>
+
+  <div class="card" id="rc4">
+    <div class="q-label">Q4 · Why? (Cause & Effect)</div>
+    <div class="q-text">Why did the students save electricity?</div>
+    <div class="options" style="grid-template-columns:1fr;">
+      <button class="opt-btn" onclick="checkMC(this,'rc4','wrong')">They turned off the lights.</button>
+      <button class="opt-btn" onclick="checkMC(this,'rc4','correct')">They walked instead of driving.</button>
+      <button class="opt-btn" onclick="checkMC(this,'rc4','wrong')">They took a short shower.</button>
+      <button class="opt-btn" onclick="checkMC(this,'rc4','wrong')">They collected rainwater.</button>
+    </div>
+    <div class="feedback" id="rc4-fb">✅ "They saved electricity by walking instead of driving." – Cause = walking. Effect = saved electricity!</div>
+  </div>
+
+  <div class="card" id="rc5">
+    <div class="q-label">Q5 · Vocabulary in Context</div>
+    <div class="q-text">Find a word in the passage that means "unique / not ordinary".</div>
+    <input class="text-input" id="rc5-inp" placeholder="The word is...">
+    <button class="check-btn" onclick="checkOpen('rc5','special','✅ SPECIAL! The reporter said it was the most special story of the year.')">Check ✓</button>
+    <div class="feedback" id="rc5-fb"></div>
+  </div>
+
+  <div class="card" id="rc6">
+    <div class="q-label">Q6 · Did question</div>
+    <div class="q-text">Did Mrs. Katz enjoy cooking? Answer in a full sentence.</div>
+    <div class="q-hebrew">האם גב' כץ נהנתה לבשל? ענה במשפט מלא.</div>
+    <input class="text-input" id="rc6-inp" placeholder="Yes, she...   OR   No, she didn't...">
+    <button class="check-btn" onclick="checkOpen('rc6','yes','✅ Yes, she enjoyed cooking. She baked bread and cooked a stew!')">Check ✓</button>
+    <div class="feedback" id="rc6-fb"></div>
+  </div>
+</section>
+
+<!-- ===================== TAB 5: CLOZE ===================== -->
+<section class="section" id="tab-cloze">
+  <div class="section-title"><span>✏️</span> Cloze & Fill in the Blanks</div>
+  <p class="section-desc">בחר מילים מהבנק והשלם את המשפטים / הטקסט.</p>
+
+  <div class="q-label" style="margin-bottom:8px;">📦 Word Bank</div>
+  <div class="word-bank" id="wordBank1">
+    <span class="wb-chip">went</span>
+    <span class="wb-chip">collected</span>
+    <span class="wb-chip">didn't enjoy</span>
+    <span class="wb-chip">found</span>
+    <span class="wb-chip">said</span>
+    <span class="wb-chip">baked</span>
+    <span class="wb-chip">were</span>
+    <span class="wb-chip">visited</span>
+  </div>
+
+  <div class="card">
+    <div class="q-text" style="line-height:2.4; font-size:1rem;">
+      Last week, Maya <input class="cloze-blank" id="cl1" data-ans="went" size="8" autocomplete="off">
+      to the marketplace with her mother. They
+      <input class="cloze-blank" id="cl2" data-ans="collected" size="9" autocomplete="off">
+      fresh vegetables and meat. Maya's mother
+      <input class="cloze-blank" id="cl3" data-ans="baked" size="7" autocomplete="off">
+      a special bread at home. They also
+      <input class="cloze-blank" id="cl4" data-ans="visited" size="8" autocomplete="off">
+      their neighbor. Maya
+      <input class="cloze-blank" id="cl5" data-ans="didn't enjoy" size="12" autocomplete="off">
+      the cold weather, but she
+      <input class="cloze-blank" id="cl6" data-ans="said" size="5" autocomplete="off">
+      it was a wonderful day. They
+      <input class="cloze-blank" id="cl7" data-ans="were" size="5" autocomplete="off">
+      very happy.
+    </div>
+    <button class="section-check-btn" onclick="checkCloze()">✏️ Check Cloze</button>
+    <div class="score-summary" id="clozeScore">
+      <div class="score-big" id="clozeScoreBig"></div>
+      <div class="score-msg" id="clozeScoreMsg"></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-title" style="margin-bottom:12px;"><span>🔗</span> Cause & Effect Matching</div>
+  <p class="section-desc">חבר סיבה לתוצאה. בחר את ההמשך הנכון לכל משפט.</p>
+
+  <div class="card" id="ce1">
+    <div class="q-label">Q1</div>
+    <div class="q-text">She took a shower, <strong>so</strong>...</div>
+    <div class="options" style="grid-template-columns:1fr;">
+      <button class="opt-btn" onclick="checkMC(this,'ce1','correct')">she saved water by being quick.</button>
+      <button class="opt-btn" onclick="checkMC(this,'ce1','wrong')">she went to the marketplace.</button>
+      <button class="opt-btn" onclick="checkMC(this,'ce1','wrong')">the electricity went off.</button>
+    </div>
+    <div class="feedback" id="ce1-fb">✅ Taking a quick shower = saving water! "Take a shower" is one of your vocabulary words.</div>
+  </div>
+
+  <div class="card" id="ce2">
+    <div class="q-label">Q2</div>
+    <div class="q-text">He didn't clean up the neighborhood, <strong>so</strong>...</div>
+    <div class="options" style="grid-template-columns:1fr;">
+      <button class="opt-btn" onclick="checkMC(this,'ce2','wrong')">the playground was beautiful.</button>
+      <button class="opt-btn" onclick="checkMC(this,'ce2','correct')">the streets were dirty.</button>
+      <button class="opt-btn" onclick="checkMC(this,'ce2','wrong')">they collected electricity.</button>
+    </div>
+    <div class="feedback" id="ce2-fb">✅ If you DON'T clean up → result is dirty streets. Cause + Effect logic!</div>
+  </div>
+
+  <div class="card" id="ce3">
+    <div class="q-label">Q3</div>
+    <div class="q-text">They planted trees in the park, <strong>because</strong>...</div>
+    <div class="options" style="grid-template-columns:1fr;">
+      <button class="opt-btn" onclick="checkMC(this,'ce3','wrong')">they wanted to cook vegetables.</button>
+      <button class="opt-btn" onclick="checkMC(this,'ce3','wrong')">the reporter asked them to.</button>
+      <button class="opt-btn" onclick="checkMC(this,'ce3','correct')">they wanted to protect the environment.</button>
+    </div>
+    <div class="feedback" id="ce3-fb">✅ "Protect" and "plant" go together with environmental care. The verb "protects" is in your vocabulary list!</div>
+  </div>
+
+</section>
+
+<!-- ===================== TAB 6: WRITING ===================== -->
+<section class="section" id="tab-writing">
+  <div class="section-title"><span>📝</span> Writing Practice</div>
+  <p class="section-desc">כתוב פסקה בעברית + אנגלית. השתמש בפעלי עבר ובאוצר מילים שלמדת!</p>
+
+  <div class="writing-rubric">
+    💡 <strong>טיפים לכתיבה:</strong><br>
+    ✅ השתמש לפחות ב-5 פעלי עבר<br>
+    ✅ השתמש לפחות ב-4 מילים מאוצר המילים<br>
+    ✅ כתוב סיבה ותוצאה (because / so)<br>
+    ✅ כתוב 5-7 משפטים<br>
+    ✅ פסק נכון (נקודה בסוף כל משפט, אות גדולה בהתחלה)
+  </div>
+
+  <div class="card" id="wq1">
+    <div class="q-label">Writing Task 1</div>
+    <div class="q-text">Write about a day when you or someone you know helped the neighborhood or community. Use Past Simple.</div>
+    <div class="q-hebrew">כתוב על יום שבו אתה או מישהו שאתה מכיר עזר לשכונה או לקהילה. השתמש בעבר פשוט.</div>
+    <textarea class="text-input" id="wq1-inp" placeholder="Last week, I went to...&#10;I collected... because...&#10;At the end, I was..."></textarea>
+    <button class="check-btn" onclick="checkWriting('wq1')">📝 Get Feedback</button>
+    <div class="feedback" id="wq1-fb"></div>
+  </div>
+
+  <div class="card" id="wq2">
+    <div class="q-label">Writing Task 2 – Shorter</div>
+    <div class="q-text">Write 3 sentences about what you <strong>didn't</strong> do last weekend (negative sentences!)</div>
+    <div class="q-hebrew">כתוב 3 משפטים על מה שלא עשית בסוף השבוע שעבר (משפטים שליליים!).</div>
+    <textarea class="text-input" id="wq2-inp" style="min-height:80px;" placeholder="I didn't...&#10;I didn't...&#10;I also didn't..."></textarea>
+    <button class="check-btn" onclick="checkWriting('wq2')">📝 Get Feedback</button>
+    <div class="feedback" id="wq2-fb"></div>
+  </div>
+
+  <div class="card">
+    <div class="q-label">📋 Vocabulary Checklist</div>
+    <div class="q-text" style="margin-bottom:12px;">Mark the vocabulary words you used in your writing:</div>
+    <div id="vocabChecklist" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
+  </div>
+
+</section>
+
+<script>
+// ============ VOCAB DATA ============
+const vocabWords = [
+  {en:"cook",      he:"לבשל"},
+  {en:"enjoy",     he:"ליהנות"},
+  {en:"marketplace",he:"שוק"},
+  {en:"meat",      he:"בשר"},
+  {en:"special",   he:"מיוחד"},
+  {en:"vegetables",he:"ירקות"},
+  {en:"playground",he:"מגרש משחקים"},
+  {en:"carpet",    he:"שטיח"},
+  {en:"center",    he:"מרכז"},
+  {en:"neighborhood",he:"שכונה"},
+  {en:"collect",   he:"לאסוף"},
+  {en:"visit",     he:"לבקר"},
+  {en:"a few",     he:"כמה / מעט"},
+  {en:"clean up",  he:"לנקות / לסדר"},
+  {en:"plant",     he:"לשתול"},
+  {en:"fill",      he:"למלא"},
+  {en:"electricity",he:"חשמל"},
+  {en:"protects",  he:"מגן"},
+  {en:"reporter",  he:"כתב / עיתונאי"},
+  {en:"save",      he:"לחסוך / להציל"},
+  {en:"take a shower",he:"להתקלח"},
+];
+
+// ============ IRREGULAR VERBS DATA ============
+const verbData = [
+  {base:"are",   past:"were",    rule:"be (plural) → were"},
+  {base:"show",  past:"showed",  rule:"regular → +ed"},
+  {base:"is",    past:"was",     rule:"be (singular) → was"},
+  {base:"say",   past:"said",    rule:"irregular"},
+  {base:"bake",  past:"baked",   rule:"ends in e → +d"},
+  {base:"go",    past:"went",    rule:"irregular"},
+  {base:"find",  past:"found",   rule:"irregular"},
+  {base:"arrive",past:"arrived", rule:"ends in e → +d"},
+  {base:"cry",   past:"cried",   rule:"consonant+y → ied"},
+  {base:"get",   past:"got",     rule:"irregular"},
+  {base:"have",  past:"had",     rule:"irregular"},
+  {base:"try",   past:"tried",   rule:"consonant+y → ied"},
+  {base:"give",  past:"gave",    rule:"irregular"},
+  {base:"study", past:"studied", rule:"consonant+y → ied"},
+  {base:"know",  past:"knew",    rule:"irregular"},
+  {base:"bring", past:"brought", rule:"irregular"},
+  {base:"stop",  past:"stopped", rule:"short vowel+consonant → double+ed"},
+  {base:"enjoy", past:"enjoyed", rule:"regular → +ed"},
+];
+
+// ============ PROGRESS TRACKING ============
+const answered = {};
+let totalQ = 0;
+
+function countAll(){
+  const allCards = document.querySelectorAll('.card[id]');
+  totalQ = allCards.length;
+  updateProgress();
+}
+
+function markAnswered(id){
+  if(!answered[id]){
+    answered[id] = true;
+    updateProgress();
+  }
+}
+
+function updateProgress(){
+  const done = Object.keys(answered).length;
+  const pct = totalQ > 0 ? (done/totalQ*100) : 0;
+  document.getElementById('mainProgressBar').style.width = pct+'%';
+  document.getElementById('progressCount').textContent = done+' / '+totalQ+' answered';
+}
+
+// ============ TABS ============
+function showTab(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const map = {'tab-vocab':'t-vocab','tab-verbs':'t-verbs','tab-grammar':'t-grammar','tab-reading':'t-reading','tab-cloze':'t-cloze','tab-writing':'t-writing'};
+  document.getElementById(map[id]).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ============ MC CHECK ============
+function checkMC(btn, cardId, result){
+  const card = document.getElementById(cardId);
+  const btns = card.querySelectorAll('.opt-btn');
+  btns.forEach(b=>b.disabled=true);
+  const fb = document.getElementById(cardId+'-fb');
+  if(result==='correct'){
+    btn.classList.add('correct');
+    showFeedback(fb, '✅ Correct! Well done! 🎉', true);
+    confetti();
+  } else {
+    btn.classList.add('wrong');
+    // Reveal correct
+    btns.forEach(b=>{
+      if(b.onclick&&b.onclick.toString().includes("'correct'")) b.classList.add('correct');
+    });
+    const preText = fb.textContent;
+    showFeedback(fb, (preText || '❌ Not quite! See the correct answer above.'), false);
+  }
+  markAnswered(cardId);
+}
+
+function showFeedback(el, msg, correct){
+  el.classList.add('show');
+  el.classList.remove('correct-fb','wrong-fb');
+  el.classList.add(correct?'correct-fb':'wrong-fb');
+  if(!el.textContent||correct) el.textContent = msg;
+  else if(!el.textContent) el.textContent = msg;
+}
+
+// ============ OPEN ANSWER CHECK ============
+function checkOpen(cardId, keyWord, explanation){
+  const inp = document.getElementById(cardId+'-inp');
+  const fb  = document.getElementById(cardId+'-fb');
+  const val = inp.value.trim().toLowerCase();
+  const key = keyWord.toLowerCase();
+  if(val.includes(key)){
+    inp.classList.add('correct'); inp.classList.remove('wrong');
+    inp.disabled = true;
+    showFeedback(fb, explanation, true);
+    confetti();
+  } else {
+    inp.classList.add('wrong'); inp.classList.remove('correct');
+    showFeedback(fb, '❌ Not quite. Hint: look for "'+keyWord+'" in your answer. '+explanation, false);
+  }
+  markAnswered(cardId);
+}
+
+// ============ VERB TABLE ============
+function buildVerbTable(){
+  const tbody = document.getElementById('verbTbody');
+  verbData.forEach((v,i)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td style="color:var(--muted);font-size:0.8rem;">${i+1}</td>
+      <td style="font-weight:800;color:var(--accent3);">${v.base}</td>
+      <td><input type="text" placeholder="past..." id="vb${i}" autocomplete="off"></td>
+      <td id="vb${i}-icon" style="font-size:1.1rem;"></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function checkVerbs(){
+  let correct=0;
+  verbData.forEach((v,i)=>{
+    const inp = document.getElementById('vb'+i);
+    const icon= document.getElementById('vb'+i+'-icon');
+    const val = inp.value.trim().toLowerCase();
+    if(val===v.past){
+      inp.classList.add('correct'); inp.classList.remove('wrong');
+      icon.textContent='✅'; inp.disabled=true;
+      correct++;
+    } else {
+      inp.classList.add('wrong'); inp.classList.remove('correct');
+      icon.textContent='❌';
+      inp.placeholder = '→ '+v.past+' ('+v.rule+')';
+    }
+  });
+  const sc = document.getElementById('verbScore');
+  sc.classList.add('show');
+  document.getElementById('verbScoreBig').textContent = correct+' / '+verbData.length;
+  const msgs = ['Keep practicing! 💪','Getting there! 📚','Great effort! ⚡','Excellent! 🌟','Perfect! 🏆'];
+  const idx = Math.floor((correct/verbData.length)*4);
+  document.getElementById('verbScoreMsg').textContent = msgs[idx];
+  if(correct>0) confetti();
+  markAnswered('verbCard');
+}
+
+// ============ CLOZE CHECK ============
+function checkCloze(){
+  const ids = ['cl1','cl2','cl3','cl4','cl5','cl6','cl7'];
+  let correct=0;
+  ids.forEach(id=>{
+    const inp = document.getElementById(id);
+    const val = inp.value.trim().toLowerCase().replace(/\s+/g,' ');
+    const ans = inp.dataset.ans.toLowerCase();
+    if(val===ans||val.replace(/'/g,"'")=== ans.replace(/'/g,"'")){
+      inp.classList.add('correct'); inp.classList.remove('wrong'); correct++;
+    } else {
+      inp.classList.add('wrong'); inp.classList.remove('correct');
+      inp.title = 'Answer: '+inp.dataset.ans;
+    }
+  });
+  const sc = document.getElementById('clozeScore');
+  sc.classList.add('show');
+  document.getElementById('clozeScoreBig').textContent = correct+' / '+ids.length;
+  document.getElementById('clozeScoreMsg').textContent = correct===ids.length ? 'Perfect! All blanks correct! 🏆' : 'Check your wrong answers – hover over blank to see the answer 💡';
+  if(correct>0) confetti();
+}
+
+// ============ WRITING CHECK ============
+function checkWriting(cardId){
+  const inp = document.getElementById(cardId+'-inp');
+  const fb  = document.getElementById(cardId+'-fb');
+  const text = inp.value.trim().toLowerCase();
+  if(text.length < 30){
+    showFeedback(fb, '✏️ Write a bit more! Try to write at least 3-4 sentences.', false);
+    return;
+  }
+  const pastVerbs = ['went','came','said','found','got','gave','had','knew','brought','baked','cooked','collected','planted','visited','enjoyed','tried','studied','arrived','showed','stopped','cried'];
+  const vocabCheck = ['neighborhood','marketplace','vegetables','meat','collect','plant','fill','electricity','reporter','save','special','playground','carpet','center','cook','enjoy','visit','protects'];
+  let verbCount=0, vocabCount=0;
+  pastVerbs.forEach(v=>{ if(text.includes(v)) verbCount++; });
+  vocabCheck.forEach(v=>{ if(text.includes(v)) vocabCount++; });
+  const hasBecause = text.includes('because')||text.includes(' so ');
+  const hasNeg = cardId==='wq2' ? (text.includes("didn't")||text.includes("did not")) : true;
+  let msgs = [];
+  if(verbCount>=3) msgs.push('✅ Good use of past verbs ('+verbCount+' found)!');
+  else msgs.push('⚠️ Try to use more past tense verbs (found '+verbCount+', need at least 3).');
+  if(vocabCount>=2) msgs.push('✅ Great vocabulary usage ('+vocabCount+' words)!');
+  else msgs.push('⚠️ Try to include more vocabulary words from the unit.');
+  if(hasBecause) msgs.push('✅ You used cause & effect language (because/so)! 🌟');
+  else msgs.push('💡 Try adding "because" or "so" to show cause and effect.');
+  if(cardId==='wq2'&&!hasNeg) msgs.push("⚠️ Remember to use didn't for negative sentences!");
+  const allGood = verbCount>=3 && vocabCount>=2 && hasBecause;
+  showFeedback(fb, msgs.join('\n'), allGood);
+  markAnswered(cardId);
+  if(allGood) confetti();
+}
+
+// ============ BUILD VOCAB GRID ============
+function buildVocabGrid(){
+  const grid = document.getElementById('vocabGrid');
+  vocabWords.forEach(w=>{
+    const div = document.createElement('div');
+    div.className='vcard';
+    div.innerHTML=`<span class="en-word">${w.en}</span><span class="he-trans">${w.he}</span><span class="flip-hint">👆 click to translate</span>`;
+    div.onclick=()=>{ div.classList.toggle('flipped'); };
+    grid.appendChild(div);
+  });
+}
+
+// ============ VOCAB CHECKLIST ============
+function buildVocabChecklist(){
+  const wrap = document.getElementById('vocabChecklist');
+  vocabWords.forEach(w=>{
+    const label = document.createElement('label');
+    label.style.cssText='display:flex;align-items:center;gap:6px;cursor:pointer;';
+    label.innerHTML=`<input type="checkbox" style="accent-color:var(--accent4);width:16px;height:16px;"> <span style="font-size:0.88rem;color:var(--text);">${w.en}</span>`;
+    wrap.appendChild(label);
+  });
+}
+
+// ============ CONFETTI ============
+function confetti(){
+  const colors=['#e94560','#f5a623','#0ff','#a8ff78','#fff'];
+  for(let i=0;i<18;i++){
+    const d=document.createElement('div');
+    d.className='confetti-dot';
+    d.style.left=Math.random()*100+'vw';
+    d.style.top='-10px';
+    d.style.background=colors[Math.floor(Math.random()*colors.length)];
+    d.style.animationDuration=(0.8+Math.random()*1.2)+'s';
+    d.style.animationDelay=(Math.random()*0.4)+'s';
+    document.body.appendChild(d);
+    d.addEventListener('animationend',()=>d.remove());
+  }
+}
+
+// ============ INIT ============
+buildVocabGrid();
+buildVerbTable();
+buildVocabChecklist();
+setTimeout(countAll, 100);
+</script>
+</body>
+</html>
